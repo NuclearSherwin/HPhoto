@@ -1,4 +1,4 @@
-﻿namespace HPhoto
+﻿namespace HPhoto.Model
 {
     public class Comment
     {

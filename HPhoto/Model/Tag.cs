@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HPhoto
+namespace HPhoto.Model
 {
     public class Tag
     {
