@@ -53,6 +53,7 @@ namespace HPhoto.Controllers
         }
 
         // Delete a comment
+        [HttpDelete("{id}")]
         public async Task<ActionResult<List<Comment>>> DeleteComment(int id)
         {
             var dbComment = await _dataContext.Comments.FirstOrDefaultAsync(x => x.Id == id);
