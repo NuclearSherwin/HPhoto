@@ -23,7 +23,7 @@ namespace HPhoto.Model
 
         [ForeignKey("TagId")]
         public Tag Tag { get; set; }
-        [ForeignKey("userId")]
+        [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
 
     }

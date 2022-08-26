@@ -13,6 +13,5 @@ namespace HPhoto.Model
         [Required]
         public int Rating { get; set; }
 
-
     }
 }

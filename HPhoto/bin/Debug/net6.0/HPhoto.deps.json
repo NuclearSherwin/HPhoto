@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "HPhoto/1.0.0": {
         "dependencies": {
+          "Microsoft.EntityFrameworkCore": "6.0.8",
           "Microsoft.EntityFrameworkCore.Design": "6.0.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.8",
           "Swashbuckle.AspNetCore": "6.2.3"
