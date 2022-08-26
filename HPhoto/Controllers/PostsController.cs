@@ -54,7 +54,7 @@ namespace HPhoto.Controllers
         }
 
         // Delete a post
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<List<Post>>> DeletePost(Post post)
         {
             var dbPost = _dataContext.Posts.FindAsync(post.Id);
