@@ -1,6 +1,7 @@
 ﻿using HPhoto.Data;
 using HPhoto.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 
 namespace HPhoto.Controllers
@@ -42,6 +43,46 @@ namespace HPhoto.Controllers
 
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserLoginRequest request)
+        {
+            var user = await _dataContext.ApplicationUser.FirstOrDefaultAsync(u =>
+                u.Email == request.Email);
+            if (user == null)
+            {
+                return BadRequest("User not found.");
+            }
+
+            if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+            {
+                return BadRequest("Password is incorrect!");
+            }
+
+            if (user.VerifiedAt == null)
+            {
+                return BadRequest("Not verified!");
+            }
+
+            return Ok($"Welcome back!, {user.Email}! :");
+        }
+
+        [HttpPost("verify")]
+
+        public async Task<IActionResult> Verify(string token)
+        {
+            var user = await _dataContext.ApplicationUser.FirstOrDefaultAsync(u =>
+                u.VerificationToken == token);
+            if (user == null)
+            {
+                return BadRequest("Invalid toke.");
+            }
+
+            user.VerifiedAt = DateTime.Now;
+            await _dataContext.SaveChangesAsync();
+
+            return Ok("User verified! :");
+        }
+
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
@@ -49,6 +90,16 @@ namespace HPhoto.Controllers
                 passwordSalt = hmac.Key;
                 passwordHash = hmac
                     .ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512(passwordSalt))
+            {
+                var computeHash = hmac
+                    .ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computeHash.SequenceEqual(passwordHash);
             }
         }
 

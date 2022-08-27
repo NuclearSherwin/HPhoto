@@ -11,7 +11,8 @@ namespace HPhoto.Controllers
     {
         private readonly DataContext _dataContext;
 
-        public PostsController(DataContext dataContext)        {
+        public PostsController(DataContext dataContext)
+        {
             _dataContext = dataContext;
         }
 
