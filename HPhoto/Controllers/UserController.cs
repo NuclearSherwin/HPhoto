@@ -74,7 +74,7 @@ namespace HPhoto.Controllers
                 u.VerificationToken == token);
             if (user == null)
             {
-                return BadRequest("Invalid toke.");
+                return BadRequest("Invalid token.");
             }
 
             user.VerifiedAt = DateTime.Now;
@@ -82,6 +82,48 @@ namespace HPhoto.Controllers
 
             return Ok("User verified! :");
         }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            var user = await _dataContext.ApplicationUser.FirstOrDefaultAsync(u =>
+                u.Email == email);
+            if (user == null)
+            {
+                return BadRequest("User not found.");
+            }
+
+            user.PasswordResetToken = CreateRandomToken();
+            user.ResetTokenExpires = DateTime.Now.AddDays(1);
+            await _dataContext.SaveChangesAsync();
+
+            await _dataContext.SaveChangesAsync();
+
+            return Ok("Your password now may reset!");
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
+        {
+            var user = await _dataContext.ApplicationUser.FirstOrDefaultAsync(u =>
+                u.PasswordResetToken == request.Token);
+            if (user == null || user.ResetTokenExpires < DateTime.Now)
+            {
+                return BadRequest("Invalid token.");
+            }
+
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            user.PasswordResetToken = null;
+            user.ResetTokenExpires = null;
+
+            await _dataContext.SaveChangesAsync();
+
+            return Ok("Your password reset has been successfully!");
+        }
+
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
