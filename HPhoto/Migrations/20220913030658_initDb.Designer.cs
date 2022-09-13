@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HPhoto.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220826132359_initDb")]
+    [Migration("20220913030658_initDb")]
     partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,7 +45,6 @@ namespace HPhoto.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("PasswordResetToken")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("PasswordSalt")
@@ -60,7 +59,6 @@ namespace HPhoto.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ResetTokenExpires")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
@@ -68,11 +66,9 @@ namespace HPhoto.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VerificationToken")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("VerifiedAt")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
