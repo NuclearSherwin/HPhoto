@@ -37,9 +37,19 @@ public class TagService : ITagService
         }
     }
 
-    public Tag CreateTag(Tag input)
+    public async Task<Tag> CreateTag(Tag input)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _dataContext.Tags.Add(input);
+            await _dataContext.SaveChangesAsync();
+            return input;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
     }
 
     public Tag UpdateTag(Tag tag)

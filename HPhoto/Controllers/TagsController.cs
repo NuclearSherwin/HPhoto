@@ -47,11 +47,9 @@ namespace HPhoto.Controllers
         public async Task<ActionResult<List<Tag>>> CreateTag(TagUpsertRequest input)
         {
             var mappedTag = _mapper.Map<Tag>(input);
-            
-            _dataContext.Tags.Add(mappedTag);
-            await _dataContext.SaveChangesAsync();
+            await _tagService.CreateTag(mappedTag);
 
-            return Ok(await _dataContext.Tags.ToListAsync());
+            return Ok(mappedTag);
         }
 
         // Update a tag
