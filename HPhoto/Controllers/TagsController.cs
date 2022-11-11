@@ -1,5 +1,8 @@
-﻿using HPhoto.Data;
+﻿using AutoMapper;
+using HPhoto.Data;
+using HPhoto.Dtos.TagDto;
 using HPhoto.Model;
+using HPhoto.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +14,12 @@ namespace HPhoto.Controllers
     {
 
         private readonly DataContext _dataContext;
+        private readonly IMapper _mapper;
 
-        public TagsController(DataContext dataContext)
+        public TagsController(DataContext dataContext, IMapper mapper)
         {
             _dataContext = dataContext;
+            _mapper = mapper;
         }
 
 
@@ -41,27 +46,29 @@ namespace HPhoto.Controllers
         
         // Create a tag
         [HttpPost]
-        public async Task<ActionResult<List<Tag>>> CreateTag(Tag tag)
+        public async Task<ActionResult<List<Tag>>> CreateTag(TagUpsertRequest input)
         {
-            _dataContext.Tags.Add(tag);
+            var mappedTag = _mapper.Map<Tag>(input);
+            
+            _dataContext.Tags.Add(mappedTag);
             await _dataContext.SaveChangesAsync();
 
             return Ok(await _dataContext.Tags.ToListAsync());
         }
 
         // Update a tag
-        [HttpPut]
-        public async Task<ActionResult<List<Tag>>> UpdateTag(Tag tag)
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<List<Tag>>> UpdateTag([FromRoute] int id, TagUpsertRequest input)
         {
-            var dbTag = await _dataContext.Tags.FindAsync(tag.Id);
+            var dbTag = await _dataContext.Tags.FindAsync(id);
             if (dbTag == null)
             {
                 return BadRequest("Tag not found.");
             }
 
-            dbTag.Name = tag.Name;
-            dbTag.Description = tag.Description;
-            dbTag.Rating = tag.Rating;
+            dbTag.Name = input.Name;
+            dbTag.Description = input.Description;
+            dbTag.Rating = input.Rating;
 
             // save changes
             await _dataContext.SaveChangesAsync();

@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "qHGsrL8n/ncQNSXa1NiE/0oNOwXpVjlFh+xdSilRz5R/8hIaEG6W5+ABW44dLfLL2xdyJ6jBMaz6TurMGai9bA==",
+  "dgSpecHash": "92/727KoHgSuDuoTwdJGaHi7EYSv6R+ocBPQ4pHWKr4wf7fyRMIc68ejQQFqOU0Z1wcBcPpmyvfyYZSk9a9PWQ==",
   "success": true,
   "projectFilePath": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/HPhoto.csproj",
   "expectedPackageFiles": [
+    "/home/phong/.nuget/packages/automapper/12.0.0/automapper.12.0.0.nupkg.sha512",
+    "/home/phong/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.0/automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
     "/home/phong/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
-    "/home/phong/.nuget/packages/microsoft.csharp/4.5.0/microsoft.csharp.4.5.0.nupkg.sha512",
+    "/home/phong/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",
     "/home/phong/.nuget/packages/microsoft.data.sqlclient/2.1.4/microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "/home/phong/.nuget/packages/microsoft.data.sqlclient.sni.runtime/2.1.1/microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
     "/home/phong/.nuget/packages/microsoft.entityframeworkcore/6.0.8/microsoft.entityframeworkcore.6.0.8.nupkg.sha512",
@@ -14,6 +16,7 @@
     "/home/phong/.nuget/packages/microsoft.entityframeworkcore.design/6.0.8/microsoft.entityframeworkcore.design.6.0.8.nupkg.sha512",
     "/home/phong/.nuget/packages/microsoft.entityframeworkcore.relational/6.0.8/microsoft.entityframeworkcore.relational.6.0.8.nupkg.sha512",
     "/home/phong/.nuget/packages/microsoft.entityframeworkcore.sqlserver/6.0.8/microsoft.entityframeworkcore.sqlserver.6.0.8.nupkg.sha512",
+    "/home/phong/.nuget/packages/microsoft.entityframeworkcore.tools/6.0.8/microsoft.entityframeworkcore.tools.6.0.8.nupkg.sha512",
     "/home/phong/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "/home/phong/.nuget/packages/microsoft.extensions.caching.abstractions/6.0.0/microsoft.extensions.caching.abstractions.6.0.0.nupkg.sha512",
     "/home/phong/.nuget/packages/microsoft.extensions.caching.memory/6.0.1/microsoft.extensions.caching.memory.6.0.1.nupkg.sha512",
