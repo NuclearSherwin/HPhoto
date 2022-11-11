@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HPhoto.Data;
+using HPhoto.Dtos.CommentDto;
 using HPhoto.Model;
 using HPhoto.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,7 @@ namespace HPhoto.Controllers
         }
         
         // Get comment by ID
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var comment = await _commentService.GetById(id);
@@ -40,11 +42,11 @@ namespace HPhoto.Controllers
 
         // Create a comment
         [HttpPost]
-        public async Task<ActionResult<List<Comment>>> CreateComment(Comment comment)
+        public async Task<ActionResult<List<Comment>>> CreateComment(CommentUpsertRequest comment)
         {
-            _dataContext.Comments.Add(comment);
-            await _dataContext.SaveChangesAsync();
-            return Ok(_dataContext.Comments.ToListAsync());
+            var mappedComment = _mapper.Map<Comment>(comment);
+            await _commentService.Create(mappedComment);
+            return Ok(mappedComment);
         }
 
         // Update a comment

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HPhoto.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220913030658_initDb")]
-    partial class initDb
+    [Migration("20221111130344_INITDB")]
+    partial class INITDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
