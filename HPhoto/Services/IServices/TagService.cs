@@ -67,8 +67,26 @@ public class TagService : ITagService
         }
     }
 
-    public Tag DeleteTag(int id)
+    public async Task<bool> DeleteTag(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var tag = await _dataContext.Tags.FindAsync(id);
+            if (tag == null)
+            {
+                Console.WriteLine("Tag not found");
+                return false;
+            }
+
+            _dataContext.Tags.Remove(tag);
+            await _dataContext.SaveChangesAsync();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
     }
 }

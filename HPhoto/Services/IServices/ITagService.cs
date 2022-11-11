@@ -9,5 +9,5 @@ public interface ITagService
     Task<Tag> GetTagById(int id);
     Task<Tag> CreateTag(Tag input);
     Task<Tag> UpdateTag(Tag tag);
-    Tag DeleteTag(int id);
+    Task<bool> DeleteTag(int id);
 }

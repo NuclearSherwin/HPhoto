@@ -69,20 +69,15 @@ namespace HPhoto.Controllers
         }
 
         // Delete a tag
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Tag>>> DeleteTag(int id)
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<List<Tag>>> DeleteTag([FromRoute] int id)
         {
-            var dbTag = await _dataContext.Tags.FindAsync(id);
-            if (dbTag == null)
-                return BadRequest("Tag not found.");
-
-            _dataContext.Tags.Remove(dbTag);
-            await _dataContext.SaveChangesAsync();
-
-            return Ok(await _dataContext.Tags.ToListAsync());
-
+            var deleteTag = await _tagService.DeleteTag(id);
+            if (!deleteTag)
+            {
+                return BadRequest("Delete failed!");
+            }
+            return Ok("Delete successfully!");
         }
-
-
     }
 }
