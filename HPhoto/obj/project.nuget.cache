@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eGg78wIuxsfzr2DnSTm8KpSxDvm82WgnAUtUxdrxcOC/jEcovrR0MiLwG0kaNa3f8Bs7k5rydy8zujcZHMTfKg==",
+  "dgSpecHash": "qHGsrL8n/ncQNSXa1NiE/0oNOwXpVjlFh+xdSilRz5R/8hIaEG6W5+ABW44dLfLL2xdyJ6jBMaz6TurMGai9bA==",
   "success": true,
-  "projectFilePath": "/home/phong/work/asp-dotnet-core-apps/HPhoto/HPhoto/HPhoto.csproj",
+  "projectFilePath": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/HPhoto.csproj",
   "expectedPackageFiles": [
     "/home/phong/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/home/phong/.nuget/packages/microsoft.csharp/4.5.0/microsoft.csharp.4.5.0.nupkg.sha512",

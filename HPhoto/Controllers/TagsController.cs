@@ -25,6 +25,20 @@ namespace HPhoto.Controllers
             return Ok(await _dataContext.Tags.ToListAsync());
         }
 
+        
+        // Get detail of tag
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetTagById(int id)
+        {
+            var tag = await _dataContext.Tags.FindAsync(id);
+            if (tag == null)
+            {
+                return BadRequest("Tag Not found");
+            }
+            return Ok(tag);
+        }
+        
+        
         // Create a tag
         [HttpPost]
         public async Task<ActionResult<List<Tag>>> CreateTag(Tag tag)
