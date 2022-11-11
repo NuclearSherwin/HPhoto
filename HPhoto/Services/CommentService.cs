@@ -54,9 +54,19 @@ public class CommentService : ICommentService
         }
     }
 
-    public Task<Comment> Update(Comment post)
+    public async Task<Comment> Update(Comment input)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _dataContext.Comments.Update(input);
+            await _dataContext.SaveChangesAsync();
+            return input;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
     }
 
     public Task<bool> Delete(int id)

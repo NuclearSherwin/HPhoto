@@ -50,22 +50,18 @@ namespace HPhoto.Controllers
         }
 
         // Update a comment
-        [HttpPut]
-        public async Task<ActionResult<List<Comment>>> UpdateComment(Comment comment)
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<List<Comment>>> UpdateComment([FromRoute] int id, CommentUpsertRequest input)
         {
-            var dbComment = await _dataContext.Comments.FirstOrDefaultAsync(x => x.Id == comment.Id);
-            if (dbComment == null)
-            {
-                return BadRequest("Comment not found.");
-            }
+            var dbComment = await _commentService.GetById(id);
 
-            dbComment.Content = comment.Content;
-            dbComment.Created = comment.Created;
-            dbComment.PostId = comment.PostId;
+            dbComment.Content = input.Content;
+            dbComment.Created = input.Created;
+            dbComment.PostId = input.PostId;
 
-            await _dataContext.SaveChangesAsync();
-
-            return Ok(await _dataContext.Comments.ToListAsync());
+            await _commentService.Update(dbComment);
+            
+            return Ok(dbComment);
         }
 
         // Delete a comment
