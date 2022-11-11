@@ -74,7 +74,7 @@ namespace HPhoto.Controllers
             {
                 return BadRequest("Delete failed!");
             }
-            return Ok("Delete successfully!");
+            return Ok("Tag Deleted successfully!");
         }
     }
 }

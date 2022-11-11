@@ -68,16 +68,13 @@ namespace HPhoto.Controllers
 
         // Delete a post
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Post>>> DeletePost(Post post)
+        public async Task<ActionResult<List<Post>>> DeletePost([FromRoute] int id)
         {
-            var dbPost = _dataContext.Posts.FindAsync(post.Id);
-            if (dbPost == null)
-                return BadRequest("Post not found.");
+            var dbPost = await _postService.Delete(id);
+            if (!dbPost)
+                return BadRequest("Delete failed or not found!.");
 
-            _dataContext.Posts.Remove(post);
-            await _dataContext.SaveChangesAsync();
-
-            return Ok(await _dataContext.Posts.ToListAsync());
+            return Ok("Post Deleted successfully!");
         }
 
     }

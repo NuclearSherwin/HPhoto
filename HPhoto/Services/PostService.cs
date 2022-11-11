@@ -70,8 +70,25 @@ public class PostService : IPostService
         }
     }
 
-    public Task<bool> Delete(int id)
+    public async Task<bool> Delete(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var deletePost = await _dataContext.Posts.FindAsync(id);
+            if (deletePost == null)
+            {
+                Console.WriteLine("Post not found!");
+                return false;
+            }
+            _dataContext.Posts.Remove(deletePost);
+            await _dataContext.SaveChangesAsync();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
     }
 }
