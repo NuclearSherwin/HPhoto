@@ -15,11 +15,13 @@ namespace HPhoto.Controllers
 
         private readonly DataContext _dataContext;
         private readonly IMapper _mapper;
+        private readonly ITagService _tagService;
 
-        public TagsController(DataContext dataContext, IMapper mapper)
+        public TagsController(DataContext dataContext, IMapper mapper, ITagService tagService)
         {
             _dataContext = dataContext;
             _mapper = mapper;
+            _tagService = tagService;
         }
 
 
@@ -27,7 +29,7 @@ namespace HPhoto.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Tag>>> GetAll()
         {
-            return Ok(await _dataContext.Tags.ToListAsync());
+            return Ok(await _tagService.GetAll());
         }
 
         

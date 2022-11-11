@@ -5,9 +5,9 @@ namespace HPhoto.Services.IServices;
 
 public interface ITagService
 {
-    IList<Tag> GetAll();
-    Tag GetById(int id);
-    Tag Create(Tag tagInput);
-    Tag Update(Tag tagInput);
-    bool Detete(int id);
+    Task<List<Tag>> GetAll();
+    Tag GetTagById(int id);
+    Tag CreateTag(Tag input);
+    Tag UpdateTag(Tag tag);
+    Tag DeleteTag(int id);
 }
