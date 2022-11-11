@@ -20,6 +20,7 @@ public static class ServiceCollectionExtensions
     {
         serviceCollection.AddScoped<ITagService, TagService>();
         serviceCollection.AddScoped<IPostService, PostService>();
+        serviceCollection.AddScoped<ICommentService, CommentService>();
 
         return serviceCollection;
     }

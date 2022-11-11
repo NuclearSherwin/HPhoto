@@ -1,5 +1,7 @@
-﻿using HPhoto.Data;
+﻿using AutoMapper;
+using HPhoto.Data;
 using HPhoto.Model;
+using HPhoto.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,17 +12,22 @@ namespace HPhoto.Controllers
     public class CommentsController : ControllerBase
     {
         private readonly DataContext _dataContext;
+        private readonly ICommentService _commentService;
+        private readonly IMapper _mapper;
 
-        public CommentsController(DataContext dataContext)
+        public CommentsController(DataContext dataContext, ICommentService commentService, IMapper mapper)
         {
             _dataContext = dataContext;
+            _commentService = commentService;
+            _mapper = mapper;
         }
 
         // Get all comment
         [HttpGet]
         public async Task<ActionResult<List<Comment>>> GetAll()
         {
-            return Ok(_dataContext.Comments.ToListAsync());
+            var comments = await _commentService.GetAll();
+            return Ok(comments);
         }
 
 

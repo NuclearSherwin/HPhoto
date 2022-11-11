@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using HPhoto.Data;
-using HPhoto.Dtos.TagDto;
+using HPhoto.Dtos.PostDto;
 using HPhoto.Model;
 using HPhoto.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +12,11 @@ namespace HPhoto.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        private readonly DataContext _dataContext;
         private readonly IPostService _postService;
         private readonly IMapper _mapper;
 
-        public PostsController(DataContext dataContext, IPostService postService, IMapper mapper)
+        public PostsController(IPostService postService, IMapper mapper)
         {
-            _dataContext = dataContext;
             _postService = postService;
             _mapper = mapper;
         }

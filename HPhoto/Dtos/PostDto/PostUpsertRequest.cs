@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using HPhoto.Model;
 
-namespace HPhoto.Dtos.TagDto;
+namespace HPhoto.Dtos.PostDto;
 
 public class PostUpsertRequest
 {

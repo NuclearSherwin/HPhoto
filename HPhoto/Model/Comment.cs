@@ -13,7 +13,6 @@ namespace HPhoto.Model
         public DateTime Created { get; set; }
         [Required]
         public int PostId { get; set; }
-        [Required]
 
         [ForeignKey("PostId")] public Post Post { get; set; }
 
