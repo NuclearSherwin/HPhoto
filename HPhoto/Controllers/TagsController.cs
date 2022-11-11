@@ -12,14 +12,11 @@ namespace HPhoto.Controllers
     [ApiController]
     public class TagsController : ControllerBase
     {
-
-        private readonly DataContext _dataContext;
         private readonly IMapper _mapper;
         private readonly ITagService _tagService;
 
-        public TagsController(DataContext dataContext, IMapper mapper, ITagService tagService)
+        public TagsController(IMapper mapper, ITagService tagService)
         {
-            _dataContext = dataContext;
             _mapper = mapper;
             _tagService = tagService;
         }
