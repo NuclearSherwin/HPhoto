@@ -56,20 +56,16 @@ namespace HPhoto.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult<List<Tag>>> UpdateTag([FromRoute] int id, TagUpsertRequest input)
         {
-            var dbTag = await _dataContext.Tags.FindAsync(id);
-            if (dbTag == null)
-            {
-                return BadRequest("Tag not found.");
-            }
-
+            // it's also validation by GetTagById method;
+            var dbTag = await _tagService.GetTagById(id);
+            
             dbTag.Name = input.Name;
             dbTag.Description = input.Description;
             dbTag.Rating = input.Rating;
 
-            // save changes
-            await _dataContext.SaveChangesAsync();
-
-            return Ok(await _dataContext.Tags.ToListAsync());
+            await _tagService.UpdateTag(dbTag);
+            
+            return Ok(dbTag);
         }
 
         // Delete a tag

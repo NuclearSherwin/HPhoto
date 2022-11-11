@@ -52,9 +52,19 @@ public class TagService : ITagService
         }
     }
 
-    public Tag UpdateTag(Tag tag)
+    public async Task<Tag> UpdateTag(Tag tag)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _dataContext.Update(tag);
+            await _dataContext.SaveChangesAsync();
+            return tag;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
     }
 
     public Tag DeleteTag(int id)

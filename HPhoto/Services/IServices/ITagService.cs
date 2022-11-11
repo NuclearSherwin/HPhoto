@@ -8,6 +8,6 @@ public interface ITagService
     Task<List<Tag>> GetAll();
     Task<Tag> GetTagById(int id);
     Task<Tag> CreateTag(Tag input);
-    Tag UpdateTag(Tag tag);
+    Task<Tag> UpdateTag(Tag tag);
     Tag DeleteTag(int id);
 }
