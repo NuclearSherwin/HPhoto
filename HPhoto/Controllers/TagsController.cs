@@ -35,13 +35,9 @@ namespace HPhoto.Controllers
         
         // Get detail of tag
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetTagById(int id)
+        public async Task<IActionResult> GetTagById([FromRoute] int id)
         {
-            var tag = await _dataContext.Tags.FindAsync(id);
-            if (tag == null)
-            {
-                return BadRequest("Tag Not found");
-            }
+            var tag = await _tagService.GetTagById(id);
             return Ok(tag);
         }
         

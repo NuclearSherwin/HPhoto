@@ -18,9 +18,23 @@ public class TagService : ITagService
         return await _dataContext.Tags.ToListAsync();
     }
 
-    public Tag GetTagById(int id)
+    public async Task<Tag> GetTagById(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var tag = await _dataContext.Tags.FindAsync(id);
+            if (tag == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return tag;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
     }
 
     public Tag CreateTag(Tag input)
