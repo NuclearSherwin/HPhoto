@@ -69,8 +69,26 @@ public class CommentService : ICommentService
         }
     }
 
-    public Task<bool> Delete(int id)
+    public async Task<bool> Delete(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var deleteComment = await _dataContext.Comments.FindAsync(id);
+            if (deleteComment == null)
+            {
+                Console.WriteLine("Comment not found");
+                return false;
+            }
+
+            _dataContext.Comments.Remove(deleteComment);
+            await _dataContext.SaveChangesAsync();
+            Console.WriteLine("Comment deleted successfully!");
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
     }
 }

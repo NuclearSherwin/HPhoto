@@ -66,17 +66,14 @@ namespace HPhoto.Controllers
 
         // Delete a comment
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Comment>>> DeleteComment(int id)
+        public async Task<ActionResult<List<Comment>>> DeleteComment([FromRoute] int id)
         {
-            var dbComment = await _dataContext.Comments.FirstOrDefaultAsync(x => x.Id == id);
-            if (dbComment == null)
-                return BadRequest("Comment not found.");
+            var deleteComment = await _commentService.Delete(id);
+            if (!deleteComment)
+                return BadRequest("Comment delete failed or comment not found.");
+            
 
-            _dataContext.Comments.Remove(dbComment);
-
-            await _dataContext.SaveChangesAsync();
-
-            return Ok(await _dataContext.Comments.ToListAsync());
+            return Ok("Comment deleted successfully!");
         }
 
     }
