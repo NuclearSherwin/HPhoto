@@ -40,14 +40,34 @@ public class PostService : IPostService
         
     }
 
-    public Task<Post> Create(Post input)
+    public async Task<Post> Create(Post input)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _dataContext.Posts.Add(input);
+            await _dataContext.SaveChangesAsync();
+            return input;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
     }
 
-    public Task<Post> Update(Post post)
+    public async Task<Post> Update(Post post)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _dataContext.Posts.Update(post);
+            await _dataContext.SaveChangesAsync();
+            return post;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
     }
 
     public Task<bool> Delete(int id)

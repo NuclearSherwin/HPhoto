@@ -21,8 +21,5 @@ public class PostUpsertRequest
 
     [Required]
     public int UserId { get; set; }
-
     
-    [ForeignKey("TagId")] public Tag Tag { get; set; }
-    [ForeignKey("UserId")] public ApplicationUser User { get; set; }
 }

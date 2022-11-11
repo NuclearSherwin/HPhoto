@@ -57,7 +57,7 @@ public class TagService : ITagService
     {
         try
         {
-            _dataContext.Update(tag);
+            _dataContext.Tags.Update(tag);
             await _dataContext.SaveChangesAsync();
             return tag;
         }

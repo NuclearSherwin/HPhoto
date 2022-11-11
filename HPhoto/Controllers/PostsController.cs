@@ -1,4 +1,6 @@
-﻿using HPhoto.Data;
+﻿using AutoMapper;
+using HPhoto.Data;
+using HPhoto.Dtos.TagDto;
 using HPhoto.Model;
 using HPhoto.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +14,13 @@ namespace HPhoto.Controllers
     {
         private readonly DataContext _dataContext;
         private readonly IPostService _postService;
+        private readonly IMapper _mapper;
 
-        public PostsController(DataContext dataContext, IPostService postService)
+        public PostsController(DataContext dataContext, IPostService postService, IMapper mapper)
         {
             _dataContext = dataContext;
             _postService = postService;
+            _mapper = mapper;
         }
 
         // Get all posts
@@ -35,21 +39,19 @@ namespace HPhoto.Controllers
 
         // Create a tag
         [HttpPost]
-        public async Task<ActionResult<List<Post>>> CreatePost(Post post)
+        public async Task<ActionResult<List<Post>>> CreatePost(PostUpsertRequest input)
         {
-            _dataContext.Posts.Add(post);
-            await _dataContext.SaveChangesAsync();
+            var mappedPost = _mapper.Map<Post>(input);
+            await _postService.Create(mappedPost);
 
-            return Ok(await _dataContext.Posts.ToListAsync());
+            return Ok(mappedPost);
         }
 
         // Update a post
-        [HttpPut]
-        public async Task<ActionResult<List<Post>>> UpdatePost(Post post)
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<List<Post>>> UpdatePost([FromRoute] int id, PostUpsertRequest post)
         {
-            var dbPost = await _dataContext.Posts.FindAsync(post.Id);
-            if (dbPost == null)
-                return BadRequest("Post not found.");
+            var dbPost = await _postService.GetById(id);
 
             dbPost.Title = post.Title;
             dbPost.Description = post.Description;
@@ -59,9 +61,9 @@ namespace HPhoto.Controllers
             dbPost.TagId = post.TagId;
 
             //_dataContext.Posts.Update(dbPost);
-            await _dataContext.SaveChangesAsync();
+            await _postService.Update(dbPost);
 
-            return Ok(await _dataContext.Posts.ToListAsync());
+            return Ok(dbPost);
         }
 
         // Delete a post
