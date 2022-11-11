@@ -1,8 +1,9 @@
 using HPhoto.Data;
 using HPhoto.Model;
+using HPhoto.Services.IServices;
 using Microsoft.EntityFrameworkCore;
 
-namespace HPhoto.Services.IServices;
+namespace HPhoto.Services;
 
 public class TagService : ITagService
 {

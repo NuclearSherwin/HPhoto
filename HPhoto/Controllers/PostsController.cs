@@ -1,5 +1,6 @@
 ﻿using HPhoto.Data;
 using HPhoto.Model;
+using HPhoto.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,17 +11,26 @@ namespace HPhoto.Controllers
     public class PostsController : ControllerBase
     {
         private readonly DataContext _dataContext;
+        private readonly IPostService _postService;
 
-        public PostsController(DataContext dataContext)
+        public PostsController(DataContext dataContext, IPostService postService)
         {
             _dataContext = dataContext;
+            _postService = postService;
         }
 
         // Get all posts
         [HttpGet]
         public async Task<ActionResult<List<Post>>> GetAll()
         {
-            return Ok(await _dataContext.Posts.ToListAsync());
+            return Ok(await _postService.GetAll());
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Post>> GetById([FromRoute] int id)
+        {
+            var post = await _postService.GetById(id);
+            return Ok(post);
         }
 
         // Create a tag

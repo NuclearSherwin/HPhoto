@@ -1,5 +1,6 @@
 using HPhoto.Configs;
 using HPhoto.Model;
+using HPhoto.Services;
 using HPhoto.Services.IServices;
 
 namespace HPhoto.Extensions;
@@ -18,6 +19,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddServices(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<ITagService, TagService>();
+        serviceCollection.AddScoped<IPostService, PostService>();
 
         return serviceCollection;
     }
