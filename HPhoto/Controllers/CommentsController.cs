@@ -29,6 +29,13 @@ namespace HPhoto.Controllers
             var comments = await _commentService.GetAll();
             return Ok(comments);
         }
+        
+        // Get comment by ID
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var comment = await _commentService.GetById(id);
+            return Ok(comment);
+        }
 
 
         // Create a comment

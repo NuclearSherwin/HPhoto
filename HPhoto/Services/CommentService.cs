@@ -19,9 +19,24 @@ public class CommentService : ICommentService
         return await _dataContext.Comments.ToListAsync();
     }
 
-    public Task<Comment> GetById(int id)
+    public async Task<Comment> GetById(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var comment = await _dataContext.Comments.FindAsync(id);
+            if (comment == null)
+            {
+                Console.WriteLine("Comment not found");
+                throw new NullReferenceException();
+            }
+
+            return comment;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
     }
 
     public Task<Comment> Create(Comment input)
