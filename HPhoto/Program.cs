@@ -1,5 +1,9 @@
+using AutoMapper;
+using HPhoto;
+using HPhoto.Configs;
 using HPhoto.Data;
 using HPhoto.Extensions;
+using HPhoto.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,20 +12,47 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper()
-    .AddServices();
+    .AddDatabase()
+    .AddAutoMapper()
+    .AddServices()
+    .AddSwagger();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DataContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-builder.Services.AddCors(options => options.AddPolicy(name: "Tags",
-    policy =>
-    {
-        policy.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
-    }
-    ));
+// builder.Services.AddDbContext<DataContext>(options =>
+// {
+//     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+// });
+// builder.Services.AddCors(options => options.AddPolicy(name: "Tags",
+//     policy =>
+//     {
+//         policy.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
+//     }
+//     ));
+
+
+// Config the app to read values from appsettings base on current environment value.
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+    .AddJsonFile("appsettings.json", false, true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
+    .AddEnvironmentVariables().Build();
+
+configuration.GetSection("AppSettings")
+    .Get<AppSettings>(options => options.BindNonPublicProperties = true);
 
 var app = builder.Build();
 
@@ -32,12 +63,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("Tags");
+app.UseRouting();
 
-app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 
-app.UseAuthorization();
+// app.UseHttpsRedirection();
 
 app.MapControllers();
+
+// app.UseMiddleware<ErrorHandlerMiddleware>();
+//             
+// app.UseMiddleware<JwtMiddleware>();
 
 app.Run();

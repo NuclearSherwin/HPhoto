@@ -183,3 +183,4 @@ E:/c#-projects/web-api/HPhoto/HPhoto/bin/Debug/net6.0/runtimes/win/lib/netcoreap
 /home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/obj/Debug/net6.0/ref/HPhoto.dll
 /home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/bin/Debug/net6.0/AutoMapper.dll
 /home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/bin/Debug/net6.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/bin/Debug/net6.0/BCrypt.Net-Next.dll

@@ -16,7 +16,8 @@ public class TagService : ITagService
     
     public async Task<List<Tag>> GetAll()
     {
-        return await _dataContext.Tags.ToListAsync();
+        var resutls = await _dataContext.Tags.ToListAsync();
+        return resutls;
     }
 
     public async Task<Tag> GetTagById(int id)
