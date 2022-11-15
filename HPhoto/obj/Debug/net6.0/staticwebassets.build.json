@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "y87oFtpUjS/gta/FsrIj/VVUxibs9/QK6S0CWfUNPJA=",
+  "Hash": "df2W6uHzkXfwLKIWZMg5tsHg+s2KhLWz1xA6Wnj4QC4=",
   "Source": "HPhoto",
   "BasePath": "_content/HPhoto",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "HPhoto/wwwroot",
+      "Source": "HPhoto",
+      "ContentRoot": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/wwwroot/",
+      "BasePath": "_content/HPhoto",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

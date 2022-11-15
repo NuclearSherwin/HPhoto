@@ -70,6 +70,7 @@ app.UseCors("AllowAll");
 // app.UseHttpsRedirection();
 
 app.MapControllers();
+app.UseStaticFiles();
 
 // app.UseMiddleware<ErrorHandlerMiddleware>();
 //             

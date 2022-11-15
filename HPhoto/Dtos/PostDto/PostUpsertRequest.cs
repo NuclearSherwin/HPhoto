@@ -15,6 +15,8 @@ public class PostUpsertRequest
     public DateTime CreatedDate { get; set; }
     [Required]
     public string ImgPath { get; set; }
+    
+    public IFormFile? Image { get; set; }
 
     [Required]
     public int TagId { get; set; }

@@ -36,8 +36,8 @@ namespace HPhoto.Controllers
         }
 
         // Create a tag
-        [HttpPost]
-        public async Task<ActionResult<List<Post>>> CreatePost(PostUpsertRequest input)
+        [HttpPost(nameof(UploadImage))]
+        public async Task<ActionResult<List<Post>>> CreatePost([FromForm]PostUpsertRequest input)
         {
             var mappedPost = _mapper.Map<Post>(input);
             await _postService.Create(mappedPost);
@@ -73,6 +73,32 @@ namespace HPhoto.Controllers
                 return BadRequest("Delete failed or not found!.");
 
             return Ok("Post Deleted successfully!");
+        }
+
+        [HttpPost]
+        public string UploadImage([FromForm] IFormFile file)
+        {
+            try
+            {
+                    // getting file original name
+                    string FileName = file.FileName;
+                    
+                    // combining GUID to create UNIQUE ID to make it unique before saving to wwwroot
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + FileName;
+                    
+                    // getting full path inside wwwroot/images
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/images/", FileName);
+                    
+                    // copying file
+                    file.CopyTo(new FileStream(imagePath, FileMode.Create));
+
+                    return "File Uploaded successfully!";
+            }   
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return e.Message;
+            }
         }
 
     }
