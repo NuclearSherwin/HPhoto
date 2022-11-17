@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "mugXs88YlncIayoa7OvQFlr6X4jxmR4i6NjUlRxyat0=",
+  "Hash": "kNdGHx11hNI+SOkmjC+vOjII3kpipSOpmEfFkRNNlHU=",
   "Source": "HPhoto",
   "BasePath": "_content/HPhoto",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/users/posts/1/muzan_f698.png"
+    },
+    {
+      "Identity": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/wwwroot/users/posts/1/Zugpsitze_mountain_a8fd.jpg",
+      "SourceId": "HPhoto",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/wwwroot/",
+      "BasePath": "_content/HPhoto",
+      "RelativePath": "users/posts/1/Zugpsitze_mountain_a8fd.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/users/posts/1/Zugpsitze_mountain_a8fd.jpg"
     }
   ]
 }

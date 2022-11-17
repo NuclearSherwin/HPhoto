@@ -45,7 +45,7 @@ public static class ServiceCollectionExtensions
     {
         service.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web api khoi phi", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "HPhoto", Version = "v1" });
 
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
