@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HPhoto.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221113132611_initDb")]
-    partial class initDb
+    [Migration("20221117033647_initDB")]
+    partial class initDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -76,6 +76,42 @@ namespace HPhoto.Migrations
                     b.ToTable("ApplicationUser");
                 });
 
+            modelBuilder.Entity("HPhoto.Model.CheckPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImgPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Published")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TagId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CheckPosts");
+                });
+
             modelBuilder.Entity("HPhoto.Model.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -122,10 +158,6 @@ namespace HPhoto.Migrations
 
                     b.Property<int>("TagId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -196,6 +228,25 @@ namespace HPhoto.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("HPhoto.Model.CheckPost", b =>
+                {
+                    b.HasOne("HPhoto.Model.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HPhoto.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tag");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("HPhoto.Model.Comment", b =>
                 {
                     b.HasOne("HPhoto.Model.Post", "Post")
@@ -215,7 +266,7 @@ namespace HPhoto.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HPhoto.Model.ApplicationUser", "User")
+                    b.HasOne("HPhoto.Model.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

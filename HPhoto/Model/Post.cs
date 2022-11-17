@@ -8,16 +8,13 @@ namespace HPhoto.Model
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Title { get; set; } = string.Empty;
-        [Required]
         public string Description { get; set; } = string.Empty;
 
         [Required]
         public DateTime CreatedDate { get; set; }
         [Required]
-        public string ImgPath { get; set; }
+        public string? ImgPath { get; set; }
         
-        public IFormFile? Image { get; set; }
 
         [Required]
         public int TagId { get; set; }
@@ -28,7 +25,7 @@ namespace HPhoto.Model
 
 
         [ForeignKey("TagId")] public Tag Tag { get; set; }
-        [ForeignKey("UserId")] public ApplicationUser User { get; set; }
+        [ForeignKey("UserId")] public User User { get; set; }
 
     }
 }

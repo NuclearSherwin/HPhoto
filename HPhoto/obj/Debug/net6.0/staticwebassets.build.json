@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "df2W6uHzkXfwLKIWZMg5tsHg+s2KhLWz1xA6Wnj4QC4=",
+  "Hash": "mugXs88YlncIayoa7OvQFlr6X4jxmR4i6NjUlRxyat0=",
   "Source": "HPhoto",
   "BasePath": "_content/HPhoto",
   "Mode": "Default",
@@ -15,5 +15,40 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/wwwroot/users/posts/1/muzan_8aea.png",
+      "SourceId": "HPhoto",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/wwwroot/",
+      "BasePath": "_content/HPhoto",
+      "RelativePath": "users/posts/1/muzan_8aea.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/users/posts/1/muzan_8aea.png"
+    },
+    {
+      "Identity": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/wwwroot/users/posts/1/muzan_f698.png",
+      "SourceId": "HPhoto",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/wwwroot/",
+      "BasePath": "_content/HPhoto",
+      "RelativePath": "users/posts/1/muzan_f698.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/users/posts/1/muzan_f698.png"
+    }
+  ]
 }

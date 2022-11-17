@@ -12,6 +12,8 @@ namespace HPhoto.Data
         public DbSet<User> Users { get; set; }  
         public DbSet<Tag> Tags => Set<Tag>();
         public DbSet<Post> Posts => Set<Post>();
+
+        public DbSet<CheckPost> CheckPosts { get; set; }
         public DbSet<Comment> Comments => Set<Comment>();
 
     }

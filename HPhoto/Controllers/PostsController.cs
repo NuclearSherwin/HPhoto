@@ -3,6 +3,7 @@ using HPhoto.Data;
 using HPhoto.Dtos.PostDto;
 using HPhoto.Model;
 using HPhoto.Services.IServices;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,12 +14,14 @@ namespace HPhoto.Controllers
     public class PostsController : ControllerBase
     {
         private readonly IPostService _postService;
-        private readonly IMapper _mapper;
+        // private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public PostsController(IPostService postService, IMapper mapper)
+        public PostsController(IPostService postService)
         {
             _postService = postService;
-            _mapper = mapper;
+            // _mapper = mapper;
+            // _logger = logger;
         }
 
         // Get all posts
@@ -35,15 +38,56 @@ namespace HPhoto.Controllers
             return Ok(post);
         }
 
-        // Create a tag
-        [HttpPost(nameof(UploadImage))]
-        public async Task<ActionResult<List<Post>>> CreatePost([FromForm]PostUpsertRequest input)
+        // Create a post
+        // [HttpPost]
+        // public async Task<ActionResult<List<Post>>> CreatePost(PostUpsertRequest input)
+        // {
+        //     var mappedPost = _mapper.Map<Post>(input);
+        //     await _postService.Create(mappedPost);
+        //
+        //     return Ok(mappedPost);
+        // }
+        
+        // Create a post
+        [HttpPost]
+        [Route("")]
+        [RequestSizeLimit(5 * 1024 * 1024)]
+        public async Task<IActionResult> SubmitPost([FromForm] PostUpsertRequest postUpsertRequest)
         {
-            var mappedPost = _mapper.Map<Post>(input);
-            await _postService.Create(mappedPost);
+            if (postUpsertRequest == null)
+            {
+                return BadRequest(new PostResponse
+                {
+                    Success = false,
+                    ErrorCode = "501",
+                    Error = "Invalid post request"
+                });
+            }
 
-            return Ok(mappedPost);
+            if (string.IsNullOrEmpty(Request.GetMultipartBoundary()))
+            {
+                return BadRequest(new PostResponse
+                {
+                    Success = false,
+                    ErrorCode = "502",
+                    Error = "Invalid post header"
+                });
+            }
+
+            if (postUpsertRequest.Image != null)
+            {
+                await _postService.SavePostImageAsync(postUpsertRequest);
+            }
+
+            var postResponse = await _postService.CreatePostAsync(postUpsertRequest);
+            if (!postResponse.Success)
+            {
+                return NotFound(postResponse);
+            }
+
+            return Ok(postResponse.Post);
         }
+        
 
         // Update a post
         [HttpPut("{id:int}")]
@@ -51,7 +95,6 @@ namespace HPhoto.Controllers
         {
             var dbPost = await _postService.GetById(id);
 
-            dbPost.Title = post.Title;
             dbPost.Description = post.Description;
             dbPost.CreatedDate = DateTime.Now;
             dbPost.ImgPath = post.ImgPath;
@@ -74,32 +117,6 @@ namespace HPhoto.Controllers
 
             return Ok("Post Deleted successfully!");
         }
-
-        [HttpPost]
-        public string UploadImage([FromForm] IFormFile file)
-        {
-            try
-            {
-                    // getting file original name
-                    string FileName = file.FileName;
-                    
-                    // combining GUID to create UNIQUE ID to make it unique before saving to wwwroot
-                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + FileName;
-                    
-                    // getting full path inside wwwroot/images
-                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/images/", FileName);
-                    
-                    // copying file
-                    file.CopyTo(new FileStream(imagePath, FileMode.Create));
-
-                    return "File Uploaded successfully!";
-            }   
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return e.Message;
-            }
-        }
-
+        
     }
 }
