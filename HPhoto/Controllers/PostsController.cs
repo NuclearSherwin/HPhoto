@@ -13,18 +13,20 @@ namespace HPhoto.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
+        private readonly DataContext _db;
         private readonly IPostService _postService;
-        // private readonly IMapper _mapper;
-        private readonly ILogger _logger;
+        private readonly IMapper _mapper;
 
-        public PostsController(IPostService postService)
+        public PostsController(DataContext db, IMapper mapper,
+            IPostService postService)
         {
+            _db = db;
+            _mapper = mapper;
             _postService = postService;
-            // _mapper = mapper;
-            // _logger = logger;
         }
 
         // Get all posts
+        // GET: api/Posts
         [HttpGet]
         public async Task<ActionResult<List<Post>>> GetAll()
         {
@@ -38,54 +40,13 @@ namespace HPhoto.Controllers
             return Ok(post);
         }
 
-        // Create a post
-        // [HttpPost]
-        // public async Task<ActionResult<List<Post>>> CreatePost(PostUpsertRequest input)
-        // {
-        //     var mappedPost = _mapper.Map<Post>(input);
-        //     await _postService.Create(mappedPost);
-        //
-        //     return Ok(mappedPost);
-        // }
-        
-        // Create a post
         [HttpPost]
-        [Route("")]
-        [RequestSizeLimit(5 * 1024 * 1024)]
-        public async Task<IActionResult> SubmitPost([FromForm] PostUpsertRequest postUpsertRequest)
+        public async Task<ActionResult<List<Post>>> Create([FromForm] PostUpsertRequest input)
         {
-            if (postUpsertRequest == null)
-            {
-                return BadRequest(new PostResponse
-                {
-                    Success = false,
-                    ErrorCode = "501",
-                    Error = "Invalid post request"
-                });
-            }
+            var mappedPost = _mapper.Map<Post>(input);
+            await _postService.Create(mappedPost);
 
-            if (string.IsNullOrEmpty(Request.GetMultipartBoundary()))
-            {
-                return BadRequest(new PostResponse
-                {
-                    Success = false,
-                    ErrorCode = "502",
-                    Error = "Invalid post header"
-                });
-            }
-
-            if (postUpsertRequest.Image != null)
-            {
-                await _postService.SavePostImageAsync(postUpsertRequest);
-            }
-
-            var postResponse = await _postService.CreatePostAsync(postUpsertRequest);
-            if (!postResponse.Success)
-            {
-                return NotFound(postResponse);
-            }
-
-            return Ok(postResponse.Post);
+            return Ok(mappedPost);
         }
         
 
@@ -98,6 +59,7 @@ namespace HPhoto.Controllers
             dbPost.Description = post.Description;
             dbPost.CreatedDate = DateTime.Now;
             dbPost.ImgPath = post.ImgPath;
+            dbPost.ImageFile = post.ImageFile;
             dbPost.UserId = post.UserId;
             dbPost.TagId = post.TagId;
 

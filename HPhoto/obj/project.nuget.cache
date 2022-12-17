@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "beeu5igfeDO4RCo7HdkfL8X19F7U7UMObZpJOOorkSJQvNZq1LrtEFytpv3gS+3NXUHEuNtPpTG8rcc3IZoc0A==",
+  "dgSpecHash": "Q/YUwAXPwcXP3lPJnVi9cnVW0T1oA+cc8DhALm80HBSC3NPiD84mu6NiHDqAAGcwOEweylqYUDuP3epqfeWOJA==",
   "success": true,
-  "projectFilePath": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/HPhoto.csproj",
+  "projectFilePath": "/home/phong/work-space/real-projects/HPhoto/HPhoto-Server/HPhoto/HPhoto/HPhoto.csproj",
   "expectedPackageFiles": [
     "/home/phong/.nuget/packages/automapper/12.0.0/automapper.12.0.0.nupkg.sha512",
     "/home/phong/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.0/automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

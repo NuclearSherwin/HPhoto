@@ -33,7 +33,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddServices(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<ITagService, TagService>();
-        serviceCollection.AddScoped<IPostService, PostService>();
+        serviceCollection.AddTransient<IPostService, PostService>();
         serviceCollection.AddScoped<ICommentService, CommentService>();
         serviceCollection.AddScoped<IUserService, UserService>();
         serviceCollection.AddScoped<IJwtUtils, JwtUtils>();

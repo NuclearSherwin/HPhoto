@@ -5,10 +5,9 @@ namespace HPhoto.Services.IServices;
 
 public interface IPostService
 {
-    Task SavePostImageAsync(PostUpsertRequest postUpsertRequest);
     Task<List<Post>> GetAll();
     Task<Post> GetById(int id);
-    Task<PostResponse> CreatePostAsync(PostUpsertRequest postUpsertRequest);
-    Task<Post> Update(Post post);
+    Task<Post> Create(Post input);
+    Task<Post> Update(Post input);
     Task<bool> Delete(int id);
 }

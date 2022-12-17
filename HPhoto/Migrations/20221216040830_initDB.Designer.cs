@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HPhoto.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221117033647_initDB")]
+    [Migration("20221216040830_initDB")]
     partial class initDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

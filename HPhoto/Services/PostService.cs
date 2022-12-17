@@ -8,127 +8,91 @@ namespace HPhoto.Services;
 
 public class PostService : IPostService
 {
-    private readonly DataContext _dataContext;
+    private readonly DataContext _db;
     private readonly IWebHostEnvironment _environment;
 
-    public PostService(DataContext dataContext, IWebHostEnvironment environment)
+    public PostService(DataContext db, IWebHostEnvironment environment)
     {
-        _dataContext = dataContext;
+        _db = db;
         _environment = environment;
     }
 
-    public async Task SavePostImageAsync(PostUpsertRequest postUpsertRequest)
-    {
-        var uniqueFileName = FileHelper.GetUniqueFileName(postUpsertRequest.Image.FileName);
-        var uploads = Path.Combine(_environment.WebRootPath, "users", "posts", postUpsertRequest.UserId.ToString());
-        var filePath = Path.Combine(uploads, uniqueFileName);
-
-        Directory.CreateDirectory(Path.GetDirectoryName(filePath) ?? string.Empty);
-
-        await postUpsertRequest.Image.CopyToAsync(new FileStream(filePath, FileMode.Create));
-        postUpsertRequest.ImgPath = filePath;
-        Console.WriteLine("Save ImagePath successfully!");
-        return;
-    }
+    // public async Task SavePostImageAsync(PostUpsertRequest postUpsertRequest)
+    // {
+    //     var uniqueFileName = FileHelper.GetUniqueFileName(postUpsertRequest.Image.FileName);
+    //     var uploads = Path.Combine(_environment.WebRootPath, "users", "posts", postUpsertRequest.UserId.ToString());
+    //     var filePath = Path.Combine(uploads, uniqueFileName);
+    //
+    //     Directory.CreateDirectory(Path.GetDirectoryName(filePath) ?? string.Empty);
+    //
+    //     await postUpsertRequest.Image.CopyToAsync(new FileStream(filePath, FileMode.Create));
+    //     postUpsertRequest.ImgPath = filePath;
+    //     Console.WriteLine("Save ImagePath successfully!");
+    //     return;
+    // }
 
     public async Task<List<Post>> GetAll()
     {
-        return await _dataContext.Posts.ToListAsync();
-    }
-
-    public async Task<Post> GetById(int id)
-    {
         try
         {
-            var post = await _dataContext.Posts.FindAsync(id);
-            if (post == null)
-            {
-                Console.WriteLine("Post not found");
-                throw new NullReferenceException();
-            }
-
-            return post;
+            var results = await _db.Posts.ToListAsync();
+            return results;
         }
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
             throw;
         }
-        
     }
 
-    // include post image
-    public async Task<PostResponse> CreatePostAsync(PostUpsertRequest postUpsertRequest)
+    public async Task<Post> GetById(int id)
     {
-        var post = new CheckPost
+        try
         {
-            UserId = postUpsertRequest.UserId,
-            TagId = postUpsertRequest.TagId,
-            Description = postUpsertRequest.Description,
-            ImgPath = postUpsertRequest.ImgPath,
-            CreatedDate = DateTime.Now,
-            Published = true
-        };
+            var postFromDb = await _db.Posts.FindAsync(id);
+            if (postFromDb == null) throw new NullReferenceException();
 
-        var postEntry = await _dataContext.CheckPosts.AddAsync(post);
-        var saveResponse = await _dataContext.SaveChangesAsync();
-
-        if (saveResponse < 0)
-        {
-            return new PostResponse 
-            { 
-                Success = false, 
-                Error = "Issue while saving the post", 
-                ErrorCode = "CP01" 
-            };
+            return postFromDb;
         }
-
-        var postEntity = postEntry.Entity;
-        var postModel = new Post
+        catch (Exception e)
         {
-            Id = postEntity.Id,
-            Description = postEntity.Description,
-            CreatedDate = post.CreatedDate,
-            ImgPath = Path.Combine(postEntity.ImgPath),
-            UserId = postEntity.UserId,
-            TagId = postEntity.TagId
-        };
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 
-        return new PostResponse
+    public async Task<Post> Create(Post input)
+    {
+        try
         {
-            Success = true, 
-            Post = postModel
-        };
+            input.ImgPath = await SaveImg(input.ImageFile);
+            _db.Posts.Add(input);
+            await _db.SaveChangesAsync();
+
+            return input;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     
 
-    // public async Task<Post> Create(Post input)
-    // {
-    //     try
-    //     {
-    //         _dataContext.Posts.Add(input);
-    //         await _dataContext.SaveChangesAsync();
-    //         return input;
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         Console.WriteLine(e.Message);
-    //         throw;
-    //     }
-    // }
-
-    public async Task<Post> Update(Post post)
+    public async Task<Post> Update(Post input)
     {
         try
         {
-            _dataContext.Posts.Update(post);
-            await _dataContext.SaveChangesAsync();
-            return post;
+            input.ImgPath = await SaveImg(input.ImageFile);
+            _db.Posts.Update(input);
+            await _db.SaveChangesAsync();
+
+            return input;
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            Console.WriteLine(e);
             throw;
         }
     }
@@ -137,21 +101,35 @@ public class PostService : IPostService
     {
         try
         {
-            var deletePost = await _dataContext.Posts.FindAsync(id);
-            if (deletePost == null)
-            {
-                Console.WriteLine("Post not found!");
-                return false;
-            }
-            _dataContext.Posts.Remove(deletePost);
-            await _dataContext.SaveChangesAsync();
+            var postToDelete = await _db.Posts.FindAsync(id);
+            if (postToDelete == null) return false;
+
+            _db.Posts.Remove(postToDelete);
+            await _db.SaveChangesAsync();
 
             return true;
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            Console.WriteLine(e);
             throw;
         }
+    }
+
+    public async Task<string> SaveImg(IFormFile imgFile)
+    {
+        var special = Guid.NewGuid().ToString();
+        
+        string imgName = new string(Path.GetFileNameWithoutExtension(imgFile.FileName).Take(10)
+            .ToArray()).Replace(' ', '-');
+        imgName = imgName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imgFile.FileName);
+
+        var imgPath = Path.Combine(_environment.ContentRootPath, "Images", special + "-" + imgName);
+        using (var fileStream = new FileStream(imgPath, FileMode.Create))
+        {
+            await imgFile.CopyToAsync(fileStream);
+        }
+
+        return imgName;
     }
 }

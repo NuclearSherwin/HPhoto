@@ -2338,11 +2338,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/HPhoto.csproj",
+      "projectUniqueName": "/home/phong/work-space/real-projects/HPhoto/HPhoto-Server/HPhoto/HPhoto/HPhoto.csproj",
       "projectName": "HPhoto",
-      "projectPath": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/HPhoto.csproj",
+      "projectPath": "/home/phong/work-space/real-projects/HPhoto/HPhoto-Server/HPhoto/HPhoto/HPhoto.csproj",
       "packagesPath": "/home/phong/.nuget/packages/",
-      "outputPath": "/home/phong/work-space/projects/c#-projects/HPhoto/HPhoto/obj/",
+      "outputPath": "/home/phong/work-space/real-projects/HPhoto/HPhoto-Server/HPhoto/HPhoto/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/phong/.nuget/NuGet/NuGet.Config"
@@ -2425,7 +2425,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.403/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.404/RuntimeIdentifierGraph.json"
       }
     }
   }

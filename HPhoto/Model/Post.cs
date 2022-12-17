@@ -15,6 +15,8 @@ namespace HPhoto.Model
         [Required]
         public string? ImgPath { get; set; }
         
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
 
         [Required]
         public int TagId { get; set; }
