@@ -2,6 +2,7 @@ using HPhoto.Data;
 using HPhoto.Dtos.PostDto;
 using HPhoto.Model;
 using HPhoto.Services.IServices;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HPhoto.Services;
@@ -61,7 +62,7 @@ public class PostService : IPostService
         }
     }
 
-    public async Task<Post> Create(Post input)
+    public async Task<Post> Create([FromForm]Post input)
     {
         try
         {
@@ -123,7 +124,8 @@ public class PostService : IPostService
         string imgName = new string(Path.GetFileNameWithoutExtension(imgFile.FileName).Take(10)
             .ToArray()).Replace(' ', '-');
         imgName = imgName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imgFile.FileName);
-
+        
+        
         var imgPath = Path.Combine(_environment.ContentRootPath, "Images", special + "-" + imgName);
         using (var fileStream = new FileStream(imgPath, FileMode.Create))
         {

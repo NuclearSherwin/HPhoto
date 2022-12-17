@@ -15,18 +15,18 @@ public class PostUpsertRequest
     [Required]
     public int TagId { get; set; }
 
+    [Required]
+    public DateTime CreatedDate { get; set; }
     
     [Required]
     public string Description { get; set; } = string.Empty;
     
-    [Required]
-    public DateTime CreatedDate { get; set; }
-    
-    [NotMapped]
-    public IFormFile ImageFile { get; set; }
     
     [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public string? ImgPath { get; set; }
+    
+    [NotMapped]
+    public IFormFile ImageFile { get; set; }
     
     
 
