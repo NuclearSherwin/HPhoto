@@ -23,7 +23,8 @@ namespace HPhoto.Model
 
         [Required]
         public int UserId { get; set; }
-
+        [NotMapped] public string ImageSrc { get; set; }
+ 
 
 
         [ForeignKey("TagId")] public Tag Tag { get; set; }

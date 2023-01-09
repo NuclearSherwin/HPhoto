@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HPhoto.Controllers;
 
-[Authorize]
+
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class UsersController : ControllerBase
 {
     private IUserService _userService;
@@ -22,7 +23,7 @@ public class UsersController : ControllerBase
     
     [AllowAnonymous]
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterRequest model)
+    public async Task<IActionResult> Register([FromForm] RegisterRequest model)
     {
         await _userService.Register(model);
         return Ok(new { message = "Registration successful" });

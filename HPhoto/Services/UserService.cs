@@ -4,6 +4,7 @@ using HPhoto.Data;
 using HPhoto.Dtos.UserDto;
 using HPhoto.Model;
 using HPhoto.Services.IServices;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HPhoto.Services;
@@ -45,7 +46,7 @@ public class UserService : IUserService
         return await _db.Users.FirstOrDefaultAsync(u=>u.Id == id);
     }
 
-    public async Task Register(RegisterRequest model)
+    public async Task Register([FromForm] RegisterRequest model)
     {
         try
         {
@@ -66,7 +67,7 @@ public class UserService : IUserService
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            Console.WriteLine("Error " + e.Message);
             throw;
         }
     }
@@ -78,9 +79,9 @@ public class UserService : IUserService
             var user =  await _db.Users.FirstOrDefaultAsync(u=>u.Id == id);
 
             // validate
-            var userList = await _db.Users.AnyAsync(x => x.Username == model.UserName);
-            if (userList)
-                throw new Exception("Username '" + model.UserName + "' is already taken");
+            // var userList = await _db.Users.AnyAsync(x => x.Username == model.UserName);
+            // if (userList)
+            //     throw new Exception("Username '" + model.UserName + "' is already taken");
 
             // hash password if it was entered
             if (!string.IsNullOrEmpty(model.Password))

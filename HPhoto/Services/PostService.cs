@@ -36,7 +36,8 @@ public class PostService : IPostService
     {
         try
         {
-            var results = await _db.Posts.ToListAsync();
+            var results = await _db.Posts.
+                ToListAsync();
             return results;
         }
         catch (Exception e)
@@ -45,6 +46,8 @@ public class PostService : IPostService
             throw;
         }
     }
+    
+    
 
     public async Task<Post> GetById(int id)
     {
@@ -66,7 +69,8 @@ public class PostService : IPostService
     {
         try
         {
-            input.ImgPath = await SaveImg(input.ImageFile);
+            input.CreatedDate = DateTime.Now;
+            input.ImgPath = await SaveImgNormal(input.ImageFile);
             _db.Posts.Add(input);
             await _db.SaveChangesAsync();
 
@@ -133,5 +137,17 @@ public class PostService : IPostService
         }
 
         return imgName;
+    }
+    
+    public async Task<string> SaveImgNormal(IFormFile imgFile)
+    {
+        string imageName = new String(Path.GetFileNameWithoutExtension(imgFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+        imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imgFile.FileName);
+        var imagePath = Path.Combine(_environment.ContentRootPath, "Images", imageName);
+        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+        {
+            await imgFile.CopyToAsync(fileStream);
+        }
+        return imageName;
     }
 }

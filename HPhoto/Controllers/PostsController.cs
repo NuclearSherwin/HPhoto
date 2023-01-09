@@ -30,7 +30,28 @@ namespace HPhoto.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Post>>> GetAll()
         {
-            return Ok(await _postService.GetAll());
+            try
+            {
+                var result = await _db.Posts
+                    .Select(x => new Post()
+                    {
+                        Id = x.Id,
+                        Description = x.Description,
+                        UserId = x.UserId,
+                        TagId = x.TagId,
+                        CreatedDate = x.CreatedDate,
+                        ImgPath = x.ImgPath,
+                        ImageSrc = string.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host,
+                            Request.PathBase, x.ImgPath)
+                    }).ToListAsync();
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         [HttpGet("{id:int}")]

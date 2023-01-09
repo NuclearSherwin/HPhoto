@@ -5,6 +5,7 @@ using HPhoto.Data;
 using HPhoto.Extensions;
 using HPhoto.Middleware;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,8 +70,15 @@ app.UseCors("AllowAll");
 
 // app.UseHttpsRedirection();
 
+// custom jwt auth middleware
+app.UseMiddleware<JwtMiddleware>();
+
 app.MapControllers();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Images")),
+    RequestPath = "/Images"
+});
 
 // app.UseMiddleware<ErrorHandlerMiddleware>();
 //             

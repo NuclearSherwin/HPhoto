@@ -37,6 +37,7 @@ public static class ServiceCollectionExtensions
         serviceCollection.AddScoped<ICommentService, CommentService>();
         serviceCollection.AddScoped<IUserService, UserService>();
         serviceCollection.AddScoped<IJwtUtils, JwtUtils>();
+        serviceCollection.AddScoped<ILikeService, LikeService>();
 
         return serviceCollection;
     }
